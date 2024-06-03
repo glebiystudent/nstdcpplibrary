@@ -24,7 +24,7 @@ namespace nstd {
 #endif
     template<typename T, typename... Ts>
         requires (std::same_as<T, Ts> && ...)
-    [[nodiscard]] inline std::vector<T> create(Ts... args) noexcept(true) {
+    [[nodiscard]] inline std::vector<T> create_vector(Ts... args) noexcept(true) {
         std::vector<T> ret;
         ret.reserve(sizeof...(Ts));
         ((ret.emplace_back(args)), ...);
