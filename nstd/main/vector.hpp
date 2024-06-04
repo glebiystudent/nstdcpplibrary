@@ -5,23 +5,9 @@
 #include <concepts>
 #include <string>
 #include <functional>
-
 #include <ranges>
 
-#ifndef __compressed
-#include <iostream>
-#endif
-
 namespace nstd {
-#ifndef __compressed
-    template<typename T>
-    inline void log(const std::vector<T>& arr, const std::size_t end_newlines = 1, const std::string& spacer = " ") noexcept(true) {
-        for(const auto& e : arr)
-            std::cout << e << spacer;
-        for(std::size_t i = 0; i < end_newlines; ++i)
-            std::cout << "\n";
-    }
-#endif
     template<typename T, typename... Ts>
         requires (std::same_as<T, Ts> && ...)
     [[nodiscard]] inline std::vector<T> create_vector(Ts... args) noexcept(true) {

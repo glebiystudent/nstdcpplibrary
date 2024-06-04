@@ -3,24 +3,11 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 #include <ranges>
 #include <cctype>
 
-#ifndef __compressed
-#include <iostream>
-#include <concepts>
-#endif
-
 namespace nstd {
-#ifndef __compressed
-    template<typename... Ts>
-        requires ((std::integral<Ts> || std::floating_point<Ts> || std::convertible_to<Ts, std::string>) && ...)
-    inline void log(Ts&&... vars) noexcept(true) {
-        ((std::cout << vars << " "), ...);
-        std::cout << "\n";
-    }
-#endif
-
     [[nodiscard]] inline std::vector<std::string> split(const std::string& str, const char c = ' ') noexcept(true) { 
         std::vector<std::string> ret;
         std::stringstream stream(str);
