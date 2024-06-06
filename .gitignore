@@ -1,0 +1,4 @@
+.vscode/
+build/
+debug.cpp
+debug.exe
