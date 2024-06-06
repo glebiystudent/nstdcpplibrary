@@ -6,10 +6,10 @@
 #include <string>
 #include <functional>
 #include <ranges>
+#include <type_traits>
 
 namespace nstd {
     template<typename T = int, typename... Ts>
-        requires (std::same_as<T, Ts> && ...)
     [[nodiscard]] inline std::vector<T> vector(Ts&&... args) noexcept(true) {
         std::vector<T> ret;
         ret.reserve(sizeof...(Ts));

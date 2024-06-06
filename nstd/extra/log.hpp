@@ -11,8 +11,10 @@ namespace nstd {
 #include <concepts>
 #include <iostream>
 #include <vector>
+#include <span>
 #include <unordered_map>
 #include <map>
+#include <ranges>
 
 namespace nstd {
     template<typename T, typename T_>
@@ -42,12 +44,47 @@ namespace nstd {
         std::cout << "\n";
     }
 
+    template<typename T>
+        requires std::integral<T> || std::floating_point<T>
+    std::string __str(T data) {
+        return std::to_string(data);
+    }
+    
+    std::string __str(const std::string& data) { 
+        return data;
+    }
+
     // work in progress
+    template<typename T>
+        requires std::same_as<std::vector<typename T::value_type>, T>
+    [[nodiscard]] inline std::string __compose(T t) noexcept(true) {
+        std::string ret = "";
+        for(const auto& e : t | std::views::take(t.size() - 1))
+            ret += __str(e) + ", ";
+        return "{" + ret + __str(t[t.size() - 1]) + "}";
+    }
+
+    template<typename T>
+        requires std::integral<T> || std::floating_point<T>
+    [[nodiscard]] inline std::string __compose(T t) noexcept(true) {
+        return std::to_string(t);
+    }
+
+    template<typename T>
+        requires std::assignable_from<std::string&, T>
+    [[nodiscard]] inline std::string __compose(T t) noexcept(true) {
+        return t;
+    }
+
+    template<typename T>
+    [[nodiscard]] inline std::string __compose(T t) noexcept(true) {
+        return "<undefined>";
+    }
+
     template<typename... Ts>
     inline void advanced_log(Ts&&... args) noexcept(true) {
         auto func = [&]<typename T>(T&& t){
-            if constexpr(std::is_same_v<T, int>)
-                std::cout << std::forward<T>(t) << "\n";
+            std::cout << __compose(std::forward<T>(t)) << " ";
         };
         (func(std::forward<Ts>(args)), ...);
     }
