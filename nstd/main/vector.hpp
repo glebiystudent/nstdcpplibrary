@@ -8,12 +8,12 @@
 #include <ranges>
 
 namespace nstd {
-    template<typename T, typename... Ts>
+    template<typename T = int, typename... Ts>
         requires (std::same_as<T, Ts> && ...)
-    [[nodiscard]] inline std::vector<T> create_vector(Ts... args) noexcept(true) {
+    [[nodiscard]] inline std::vector<T> vector(Ts&&... args) noexcept(true) {
         std::vector<T> ret;
         ret.reserve(sizeof...(Ts));
-        ((ret.emplace_back(args)), ...);
+        ((ret.emplace_back(std::forward<Ts>(args))), ...);
         return ret;
     }
 

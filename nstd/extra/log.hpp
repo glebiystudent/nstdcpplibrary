@@ -38,8 +38,18 @@ namespace nstd {
     template<typename... Ts>
         requires ((std::integral<Ts> || std::floating_point<Ts> || std::convertible_to<Ts, std::string>) && ...)
     inline void log(Ts&&... vars) noexcept(true) {
-        ((std::cout << vars << " "), ...);
+        ((std::cout << std::forward<Ts>(vars) << " "), ...);
         std::cout << "\n";
+    }
+
+    // work in progress
+    template<typename... Ts>
+    inline void advanced_log(Ts&&... args) noexcept(true) {
+        auto func = [&]<typename T>(T&& t){
+            if constexpr(std::is_same_v<T, int>)
+                std::cout << std::forward<T>(t) << "\n";
+        };
+        (func(std::forward<Ts>(args)), ...);
     }
 }
 #endif

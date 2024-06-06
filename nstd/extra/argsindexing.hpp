@@ -2,22 +2,22 @@
 
 #ifdef __compressed
 namespace nstd {
-    template<typename... Ts, typename F>
+    template<typename F, typename... Ts>
     [[deprecated("you are using a compressed version of nstd. this function is not available")]] inline void args_all(F&& func, Ts&&... args) noexcept(true) {
 
     }
 
-    template<typename... Ts, typename F>
+    template<typename F, typename... Ts>
     [[deprecated("you are using a compressed version of nstd. this function is not available")]] inline void args_even(F&& func, Ts&&... args) noexcept(true) {
 
     }
 
-    template<typename... Ts, typename F>
+    template<typename F, typename... Ts>
     [[deprecated("you are using a compressed version of nstd. this function is not available")]] inline void args_uneven(F&& func, Ts&&... args) noexcept(true) {
 
     }
 
-    template<typename... Ts, typename F>
+    template<typename F, typename... Ts>
     [[deprecated("you are using a compressed version of nstd. this function is not available")]] inline void args_firstlast(F&& func, Ts&&... args) noexcept(true) {
 
     }
@@ -33,14 +33,14 @@ namespace nstd {
 #include <vector>
 
 namespace nstd {
-    template<typename... Ts, typename F>
+    template<typename F, typename... Ts>
     inline void args_all(F&& func, Ts&&... args) noexcept(true) {
         [&]<std::size_t... I>(std::index_sequence<I...>) {
             (func(I, std::forward<Ts>(args)), ...);
         }(std::make_index_sequence<sizeof...(Ts)>{});
     }
 
-    template<typename... Ts, typename F>
+    template<typename F, typename... Ts>
     inline void args_even(F&& func, Ts&&... args) noexcept(true) {
         auto f = [&](const std::size_t idx, auto val) {
             if(idx % 2 == 0)
@@ -51,7 +51,7 @@ namespace nstd {
         }(std::make_index_sequence<sizeof...(Ts)>{});
     }
 
-    template<typename... Ts, typename F>
+    template<typename F, typename... Ts>
     inline void args_uneven(F&& func, Ts&&... args) noexcept(true) {
         auto f = [&](const std::size_t idx, auto val) {
             if(idx % 2 != 0)
@@ -62,7 +62,7 @@ namespace nstd {
         }(std::make_index_sequence<sizeof...(Ts)>{});
     }
 
-    template<typename... Ts, typename F>
+    template<typename F, typename... Ts>
     inline void args_firstlast(F&& func, Ts&&... args) noexcept(true) {
         constexpr std::size_t idx = sizeof...(Ts);
         if(idx < 2) return;
