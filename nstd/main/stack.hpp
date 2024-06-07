@@ -6,7 +6,6 @@
 
 #include <stack>
 #include <utility>
-#include <iostream>
 
 namespace nstd {
     template<typename T, typename... Ts>
