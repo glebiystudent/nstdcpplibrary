@@ -1,5 +1,6 @@
 #pragma once
 
+// warning for compressed library users on accidental use of functions
 #ifdef __compressed
 namespace nstd {
     template<typename F, typename... Ts>
@@ -28,11 +29,14 @@ namespace nstd {
     }
 }
 #else
+
 #include <tuple>
 #include <utility>
-#include <vector>
 
+// argsindexing.hpp
+// module used to work with args and their separation
 namespace nstd {
+    // run a function on each and every variadic argument
     template<typename F, typename... Ts>
     inline void args_all(F&& func, Ts&&... args) noexcept(true) {
         [&]<std::size_t... I>(std::index_sequence<I...>) {
@@ -40,6 +44,7 @@ namespace nstd {
         }(std::make_index_sequence<sizeof...(Ts)>{});
     }
 
+    // run a function on even variadic arguments
     template<typename F, typename... Ts>
     inline void args_even(F&& func, Ts&&... args) noexcept(true) {
         auto f = [&](const std::size_t idx, auto val) {
@@ -51,6 +56,7 @@ namespace nstd {
         }(std::make_index_sequence<sizeof...(Ts)>{});
     }
 
+    // run a function on uneven variadic arguments
     template<typename F, typename... Ts>
     inline void args_uneven(F&& func, Ts&&... args) noexcept(true) {
         auto f = [&](const std::size_t idx, auto val) {
@@ -62,6 +68,7 @@ namespace nstd {
         }(std::make_index_sequence<sizeof...(Ts)>{});
     }
 
+    // run a function on only first and last variadic arguments
     template<typename F, typename... Ts>
     inline void args_firstlast(F&& func, Ts&&... args) noexcept(true) {
         constexpr std::size_t idx = sizeof...(Ts);
@@ -69,13 +76,6 @@ namespace nstd {
         const auto tuple = std::forward_as_tuple(args...);
         std::forward<F>(func)(0, std::get<0>(tuple));
         std::forward<F>(func)(idx - 1, std::get<idx - 1>(tuple));
-    }
-
-    template<typename T, typename... Ts>
-    [[nodiscard]] inline std::vector<T> create_vector(Ts&&... args) noexcept(true) {
-        std::vector<T> ret;
-
-        return ret;
     }
 }
 #endif

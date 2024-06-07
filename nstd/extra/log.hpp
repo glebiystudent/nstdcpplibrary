@@ -1,5 +1,6 @@
 #pragma once
 
+// warning for compressed library users on accidental use of functions
 #ifdef __compressed
 namespace nstd {
     template<typename... Ts>
