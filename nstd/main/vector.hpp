@@ -84,6 +84,16 @@ namespace nstd {
         return ret + vec[vec.size() - 1];
     }
 
+    // concatenates all the values(int/float/bool) from vector into one big string by a delimeter(can be changed) 
+    template<typename T>   
+        requires std::integral<T> || std::floating_point<T>
+    [[nodiscard]] inline std::string concat(const std::vector<T>& vec, const std::string& space = " ") noexcept(true) {
+        std::string ret = "";
+        for(const auto& e : vec | std::views::take(vec.size() - 1))
+            ret += std::to_string(e) + space;
+        return ret + std::to_string(vec[vec.size() - 1]);
+    }
+
     // applies a check function on each and every value in the vector. returns true if every value matched your condition
     template<typename T>
     [[nodiscard]] inline bool every(const std::vector<T>& vec, const std::function<bool(T)>& func) noexcept(true) {
