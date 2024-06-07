@@ -53,4 +53,10 @@ namespace nstd {
         std::replace_if(str.begin(), str.end(), [=](const auto c) mutable { return ++idx >= from && idx <= to; }, value);
         return str;
     }
+
+    // reverses your string
+    [[nodiscard]] inline std::string reverse(std::string str) noexcept(true) {
+        std::reverse(str.begin(), str.end());
+        return str;
+    }
 }

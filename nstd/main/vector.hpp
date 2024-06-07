@@ -50,8 +50,9 @@ namespace nstd {
 
     // returns a reversed vector
     template<typename T>
-    [[nodiscard]] inline std::vector<T> reverse(const std::vector<T>& vec) noexcept(true) {
-        return std::reverse(vec.begin(), vec.end());
+    [[nodiscard]] inline std::vector<T> reverse(std::vector<T> vec) noexcept(true) {
+        std::reverse(vec.begin(), vec.end());
+        return vec;
     }
 
     // returns a sliced vector by index(inclusive). leave the last argument for the automatic end of the vector
