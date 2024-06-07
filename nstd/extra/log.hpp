@@ -9,6 +9,12 @@ namespace nstd {
     }
 }
 #else
+
+// log.hpp
+// advanced module that can log almost anything like a JS console.log!
+// available only in a non-compressed version of a library
+
+
 #include <iostream>
 #include <vector>
 #include <unordered_map>
@@ -16,13 +22,14 @@ namespace nstd {
 #include <concepts>
 
 namespace nstd {
-    // to_string wrapper
+    // to_string wrapper for converting numbers to a string
     template<typename T>
         requires std::integral<T> || std::floating_point<T>
     [[nodiscard]] inline std::string __str(const T& data) noexcept(true) {
         return std::to_string(data);
     }
-    
+
+    // to_string wrapper for a normal string
     [[nodiscard]] inline std::string __str(const std::string& data) noexcept(true) { 
         return data;
     }
@@ -79,7 +86,7 @@ namespace nstd {
         return "<undefined>";
     }
 
-    // the main log function
+    // the main log function, you can insert almost anything here, otherwise you'll see <undefined>, don't worry
     template<typename... Ts>
     inline void log(Ts&&... args) noexcept(true) {
         auto func = [&]<typename T>(T&& t){

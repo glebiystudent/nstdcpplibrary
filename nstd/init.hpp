@@ -1,5 +1,10 @@
 #pragma once
 
+// init.hpp
+// includes all the needed features of a library
+// use this!
+
+
 // extra features that are not included if you #define __compressed before including this file
 #include "extra/log.hpp"
 #include "extra/argsindexing.hpp"

@@ -1,5 +1,9 @@
 #pragma once 
 
+// vector.hpp
+// an addition to a standard vector and simplifying life while working with them
+
+
 #include <vector>
 #include <algorithm>
 #include <concepts>
@@ -9,6 +13,7 @@
 #include <type_traits>
 
 namespace nstd {
+    // creates a vector by your variadic arguments
     template<typename T = int, typename... Ts>
     [[nodiscard]] inline std::vector<T> vector(Ts&&... args) noexcept(true) {
         std::vector<T> ret;
@@ -17,6 +22,7 @@ namespace nstd {
         return ret;
     }
 
+    // creates a vector of a specific size and fills it by zeroes(0)
     template<typename T>
         requires std::integral<T>
     [[nodiscard]] inline std::vector<T> create_fillzeroes(const std::size_t size) noexcept(true) {
@@ -24,6 +30,7 @@ namespace nstd {
         return ret;
     }
 
+    // creates a vector of a specific size and fills it by ones(1)
     template<typename T>
         requires std::integral<T>
     [[nodiscard]] inline std::vector<T> create_fillones(const std::size_t size) noexcept(true) {
@@ -32,20 +39,22 @@ namespace nstd {
         return ret;
     }
 
+    // creates a vector of a specific size and fills it by your number
     template<typename T>
         requires std::integral<T>
-    [[nodiscard]] inline std::vector<T> create_fillnumbers(const std::size_t size, const T number) noexcept(true) {
+    [[nodiscard]] inline std::vector<T> create_fillnumbers(const std::size_t size, T&& number) noexcept(true) {
         std::vector<T> ret(size);
-        std::fill(ret.begin(), ret.end(), number);
+        std::fill(ret.begin(), ret.end(), std::forward<T>(number));
         return ret;
     }
 
-
+    // returns a reversed vector
     template<typename T>
     [[nodiscard]] inline std::vector<T> reverse(const std::vector<T>& vec) noexcept(true) {
         return std::reverse(vec.begin(), vec.end());
     }
 
+    // returns a sliced vector by index(inclusive). leave the last argument for the automatic end of the vector
     template<typename T>
     [[nodiscard]] inline std::vector<T> slice(const std::vector<T>& vec, const std::size_t from, std::size_t to = -1) noexcept(true) {
         if(to == -1)
@@ -56,6 +65,7 @@ namespace nstd {
         return ret;
     }
     
+    // merges two or more(infinite) vectors together
     template<typename T, typename... Ts>
         requires (std::same_as<T, Ts> && ...)
     [[nodiscard]] inline std::vector<T> merge(const std::vector<Ts>&... vectors) noexcept(true) {
@@ -65,6 +75,7 @@ namespace nstd {
         return ret;
     }
 
+    // concatenates all the values from vector into one big string by a delimeter(can be changed)
     [[nodiscard]] inline std::string concat(const std::vector<std::string>& vec, const std::string& space = " ") noexcept(true) {
         std::string ret = "";
         for(const auto& e : vec | std::views::take(vec.size() - 1))
@@ -72,6 +83,7 @@ namespace nstd {
         return ret + vec[vec.size() - 1];
     }
 
+    // applies a check function on each and every value in the vector. returns true if every value matched your condition
     template<typename T>
     [[nodiscard]] inline bool every(const std::vector<T>& vec, const std::function<bool(T)>& func) noexcept(true) {
         bool ret = true;
@@ -83,8 +95,9 @@ namespace nstd {
         return ret;
     }
 
+    // returns a new vector with replaced values in your index range(others are untouched)
     template<typename T>
-    [[nodiscard]] inline std::vector<T> fill(const std::vector<T>& vec, const T& value, const std::size_t from, std::size_t to = -1) noexcept(true) {
+    [[nodiscard]] inline std::vector<T> replace(const std::vector<T>& vec, const T& value, const std::size_t from, std::size_t to = -1) noexcept(true) {
         if(to == -1)
             to = vec.size() - 1;
         std::vector<T> ret(vec.size());
@@ -96,6 +109,7 @@ namespace nstd {
         return ret;
     }
 
+    // filters a vector and returns a new vector with values filtered by a callback function
     template<typename T>
     [[nodiscard]] inline std::vector<T> filter(const std::vector<T>& vec, const std::function<bool(T)>& func, const bool resize = true) noexcept(true) {
         std::vector<T> ret(vec.size());
@@ -106,11 +120,13 @@ namespace nstd {
         return ret;
     }
 
+    // finds a first value in a vector specified by your filter callback function
     template<typename T>
     [[nodiscard]] inline T find(const std::vector<T>& vec, const std::function<bool(T)>& func) noexcept(true) {
         return *std::find_if(vec.begin(), vec.end(), func);
     }
 
+    // finds an index of a first value in your vector
     template<typename T>
     [[nodiscard]] inline std::size_t find_index(const std::vector<T>& vec, const T& value) noexcept(true) {
         for(std::size_t i = 0; i < vec.size(); ++i)

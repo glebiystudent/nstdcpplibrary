@@ -30,11 +30,14 @@ namespace nstd {
 }
 #else
 
+// argsindexing.hpp
+// module used to work with args and their separation
+// available only in a non-compressed version of a library
+
+
 #include <tuple>
 #include <utility>
 
-// argsindexing.hpp
-// module used to work with args and their separation
 namespace nstd {
     // run a function on each and every variadic argument
     template<typename F, typename... Ts>
