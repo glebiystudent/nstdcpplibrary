@@ -23,6 +23,9 @@ namespace nstd {
 #include <map>
 #include <concepts>
 
+constexpr inline const char* newline = "\n";
+constexpr inline const char* endl = "\n";
+
 namespace nstd {
     // to_string wrapper for converting numbers to a string
     template<typename T>

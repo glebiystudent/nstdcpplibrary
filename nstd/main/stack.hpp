@@ -21,5 +21,13 @@ namespace nstd {
         return ret;
     }
 
-    
+    template<typename T>
+    [[nodiscard]] inline std::stack<T> reverse(std::stack<T> stack) noexcept(true) {
+        std::stack<T> ret;
+        for(; !stack.empty(); ) {
+            ret.push(stack.top());
+            stack.pop();
+        }
+        return ret;
+    }
 }
