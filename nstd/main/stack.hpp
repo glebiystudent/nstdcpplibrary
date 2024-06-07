@@ -8,6 +8,7 @@
 #include <utility>
 
 namespace nstd {
+    // creates a stack from your variadic arguments
     template<typename T, typename... Ts>
     [[nodiscard]] inline std::stack<T> stack(Ts&&... ts) noexcept(true) {
         std::stack<T> ret;
@@ -20,6 +21,7 @@ namespace nstd {
         return ret;
     }
 
+    // reverses a stack not modifying the original one
     template<typename T>
     [[nodiscard]] inline std::stack<T> reverse(std::stack<T> stack) noexcept(true) {
         std::stack<T> ret;

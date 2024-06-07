@@ -135,4 +135,24 @@ namespace nstd {
                 return i;
         return -1;
     }
+
+    // sums up all the elements in an array(has to be integral / floating / boolean)
+    template<typename T>
+        requires std::integral<T> || std::floating_point<T>
+    [[nodiscard]] inline T sum(const std::vector<T>& vec) noexcept(true) {
+        T ret = 0;
+        for(const auto e : vec)
+            ret += e;
+        return ret; 
+    }
+
+    // multiplicates(be careful) up all the elements in an array(has to be integral / floating / boolean)
+    template<typename T>
+        requires std::integral<T> || std::floating_point<T>
+    [[nodiscard]] inline T mul(const std::vector<T>& vec) noexcept(true) {
+        T ret = 1;
+        for(const auto e : vec)
+            ret *= e;
+        return ret; 
+    }
 }
