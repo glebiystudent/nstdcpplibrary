@@ -165,4 +165,11 @@ namespace nstd {
             ret *= e;
         return ret; 
     }
+
+    // pop elements from the front(n for additional elements popped)
+    template<typename T>
+    [[nodiscard]] inline std::vector<T> pop_front(std::vector<T> vec, const std::size_t n) noexcept(true) {
+        vec.erase(vec.begin(), vec.begin() + n + 1);
+        return vec;
+    }
 }
