@@ -10,9 +10,11 @@ namespace nstd {
     }
 }
 #else
+
 // format.hpp
 // module that adds a formatting mechanism
 // available only in a non-compressed version of a library
+
 
 #include <string>
 #include <vector>
@@ -102,7 +104,6 @@ namespace __ {
 }
 
 namespace nstd {
-
     // converts a stack to a string representation
     template<typename T>
     [[nodiscard]] std::string format(std::stack<T> data) noexcept(true) {
