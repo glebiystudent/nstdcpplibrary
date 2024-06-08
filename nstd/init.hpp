@@ -8,7 +8,7 @@
 // extra features that are not included if you #define __compressed before including this file
 #include "extra/log.hpp"
 #include "extra/argsindexing.hpp"
-#include "extra/to_string.hpp"
+#include "extra/format.hpp"
 
 // main library features that are always gonna be included in
 #include "main/map.hpp"
