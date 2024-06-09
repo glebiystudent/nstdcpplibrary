@@ -36,11 +36,13 @@ namespace nstd {
                 
             if constexpr(std::is_assignable_v<std::string&, decltype(val)>) {
                 if(statement == val) {
-                    found = true; __found = true;
+                    found = true; 
+                    __found = true;
                 }
             } else {
                 if(found) {
-                    val(); found = false;
+                    val(); 
+                    found = false;
                 }
             }
         };
