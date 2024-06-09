@@ -14,7 +14,7 @@ namespace nstd {
     template<typename F>
     class benchmark {
         public:
-            benchmark(F&& func) {
+            benchmark(F&& func) noexcept(true) {
                 time = std::chrono::duration<float>::zero();
                 start = std::chrono::high_resolution_clock::now();
                 std::forward<F>(func)();
@@ -22,7 +22,7 @@ namespace nstd {
                 time = end - start;
             }
 
-            benchmark(F&& func, const std::size_t n) {
+            benchmark(F&& func, const std::size_t n) noexcept(true) {
                 time = std::chrono::duration<float>::zero();
                 for(std::size_t i = 0; i < n; ++i) {
                     start = std::chrono::high_resolution_clock::now();
@@ -42,8 +42,7 @@ namespace nstd {
             // compares the current benchmark to the other benchmark (human-readable)
             template<typename F_>
             [[nodiscard]] inline std::string compare(benchmark<F_>& b) noexcept(true) {
-                float p = this->elapsed() / b.elapsed();
-                std::cout << p << "\n";
+                const float p = this->elapsed() / b.elapsed();
                 return (p < 1 ? (std::to_string((1 - p) * 100) + "% faster") : (std::to_string((p - 1) * 100) + "% slower"));
             }
 
