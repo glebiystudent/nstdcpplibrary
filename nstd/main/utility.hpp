@@ -49,8 +49,7 @@ namespace nstd {
         }(std::make_index_sequence<sizeof...(Ts)>{});
  
         // default case
-        if(constexpr std::size_t idx = sizeof...(Ts); !__found)
-            if(std::get<idx - 2>(tuple) == "__default")
-                std::get<idx - 1>(tuple)();
+        if(constexpr std::size_t idx = sizeof...(Ts); !__found && std::get<idx - 2>(tuple) == "__default")
+            std::get<idx - 1>(tuple)();
     }
 }
