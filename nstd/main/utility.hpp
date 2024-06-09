@@ -27,14 +27,15 @@ namespace nstd {
             return;
 
         auto tuple = std::forward_as_tuple(ts...);
+        auto statement = std::get<0>(tuple);
         bool found = false; bool __found = false;
-
+        
         auto f = [&](const std::size_t idx, auto val) {
             if(idx == 0)
                 return;
                 
             if constexpr(std::is_assignable_v<std::string&, decltype(val)>) {
-                if(std::get<0>(tuple) == val) {
+                if(statement == val) {
                     found = true; __found = true;
                 }
             } else {
