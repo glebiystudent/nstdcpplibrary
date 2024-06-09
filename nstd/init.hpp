@@ -15,6 +15,6 @@
 #include "main/string.hpp"
 #include "main/vector.hpp"
 #include "main/stack.hpp"
-#include "main/clock.hpp"
+#include "main/benchmark.hpp"
 #include "main/async.hpp"
 #include "main/utility.hpp"
