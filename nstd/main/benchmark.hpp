@@ -7,6 +7,7 @@
 #include <chrono>
 #include <vector>
 #include <utility>
+#include <string>
 
 
 namespace nstd {
@@ -32,7 +33,19 @@ namespace nstd {
                 time /= n;
             }
 
-            static inline float percentage(ben)
+            // compares the current benchmark to the other benchmark
+            template<typename F_>
+            [[nodiscard]] inline float cmp(benchmark<F_>& b) noexcept(true) {
+                return this->elapsed() / b.elapsed();
+            }
+
+            // compares the current benchmark to the other benchmark (human-readable)
+            template<typename F_>
+            [[nodiscard]] inline std::string compare(benchmark<F_>& b) noexcept(true) {
+                float p = this->elapsed() / b.elapsed();
+                std::cout << p << "\n";
+                return (p < 1 ? (std::to_string((1 - p) * 100) + "% faster") : (std::to_string((p - 1) * 100) + "% slower"));
+            }
 
             [[nodiscard]] inline float elapsed(void) noexcept(true) {
                 return time.count();
