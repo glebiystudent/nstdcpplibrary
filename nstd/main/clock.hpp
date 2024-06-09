@@ -14,6 +14,7 @@ namespace nstd {
     class clock {
         public:
             clock(F&& func) {
+                time = std::chrono::duration<float>::zero();
                 start = std::chrono::high_resolution_clock::now();
                 std::forward<F>(func)();
                 end = std::chrono::high_resolution_clock::now();
@@ -21,6 +22,7 @@ namespace nstd {
             }
 
             clock(F&& func, const std::size_t n) {
+                time = std::chrono::duration<float>::zero();
                 for(std::size_t i = 0; i < n; ++i) {
                     start = std::chrono::high_resolution_clock::now();
                     std::forward<F>(func)();
