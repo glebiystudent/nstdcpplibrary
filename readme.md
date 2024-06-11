@@ -21,10 +21,10 @@ nstd::log(vec, "\n", map, "\n", stack, 30, "\nhello world", false, "something??"
 std::string input = "hi";
 
 nstd::switch_string(input, 
-"hi", [](){
+"hi", []{
 	std::cout << "why are you here?\n"; // this was ran
 },  
-"__default", [](){
+"__default", []{
 	std::cout << "this is gonna be ran someday..\n";
 });
 ```
@@ -53,8 +53,8 @@ auto parts = nstd::split(healed); // ["corrupted", "string"]
 ```
 ### \<benchmark\>
 ```cpp
-nstd::benchmark  b([](){
-	nstd::repeat(1000000, [](){ // <utility>
+nstd::benchmark  b([]{
+	nstd::repeat(1000000, []{ // <utility>
 		int i = 10;
 		i++; i *= 20;
 		i--; i /= 20;
