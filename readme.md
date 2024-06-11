@@ -30,8 +30,9 @@ nstd::switch_string(input,
 ```
 ```cpp
 // 3 lines of code compressed into 1
-auto [a, b, c] = nstd::var("hi", nstd::vector(10, 90, 30), 10);
+auto [a, b, c, d] = nstd::var("hi", nstd::vector(10, 90, 30), 10, []{ std::cout << "wow\n"; });
 nstd::log(a, b, c); // hi [vector: {10, 90, 30}] 10
+d(); // wow
 ```
 ### \<vector\>
 ```cpp
