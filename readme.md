@@ -4,7 +4,7 @@ quick examples to demonstrate different modules
 
 ### \<log\>
 ```cpp
-// # nstd::log allows you to log like you're not in C++
+// nstd::log allows you to log like you're not in C++
 auto vec = nstd::vector<int>(30, 90, 100, -1, -6);
 auto map = nstd::unordered_map<int, std::string>(10, "something", -60, "other", -1, "wow");
 auto stack = nstd::stack<int>(-1, -99, 666, 300, 99500);
@@ -17,7 +17,7 @@ nstd::log(vec, "\n", map, "\n", stack, 30, "\nhello world", false, "something??"
 ```
 ### \<utility\>
 ```cpp
-// # as you know switch can't work with strings at all
+// as you might know switch can't work with strings at all
 std::string input = "hi";
 
 nstd::switch_string(input, 
@@ -30,7 +30,6 @@ nstd::switch_string(input,
 ```
 ### \<vector\>
 ```cpp
-// # lots of vector related helper features
 auto vec1 = nstd::vector(30, 90, -1, 900, 100);
 auto vec2 = nstd::vector(-100, 9, -6, -4900, 0);
 auto vec3 = nstd::vector(73, 89, 13, 987, 123);
@@ -62,7 +61,7 @@ std::cout << b.evaluate() << "\n"; // 5.4944 (milliseconds)
 ```
 ### \<argsindexing\>
 ```cpp
-// # ability to fluently work with infinite arguments
+// ability to fluently work with infinite amount of arguments
 nstd::args_even([](auto idx, auto e){ std::cout << idx << ": " << e << "\n"; }, 30, 90, "hi", -1, "whaa..");
 // 0: 30
 // 2: hi
