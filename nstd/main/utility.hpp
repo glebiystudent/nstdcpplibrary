@@ -4,13 +4,10 @@
 // utility addition to C++. miscellaneous
 
 
-#include <cstdlib>
 #include <utility>
 #include <string>
 #include <type_traits>
-
-// REMOVE THIS
-#include <iostream>
+#include <tuple>
 
 namespace nstd {
     // repeats a callback function n times with forwarded arguments into it
@@ -53,5 +50,12 @@ namespace nstd {
         // default case
         if(constexpr std::size_t idx = sizeof...(Ts); !__found && std::get<idx - 2>(tuple) == "__default")
             std::get<idx - 1>(tuple)();
+    }
+
+    // this is a wrapper function to allow you having infinite variables in one line of code
+    // auto [a, b, c] = nstd::variables(...);
+    template<typename... Ts>
+    [[nodiscard]] inline std::tuple<Ts...> var(Ts&&... ts) noexcept(true) {
+        return std::forward_as_tuple(ts...);
     }
 }

@@ -22,11 +22,16 @@ std::string input = "hi";
 
 nstd::switch_string(input, 
 "hi", [](){
-    std::cout << "why are you here?\n"; // this was ran
+	std::cout << "why are you here?\n"; // this was ran
 },  
 "__default", [](){
-    std::cout << "this is gonna be ran someday..\n";
+	std::cout << "this is gonna be ran someday..\n";
 });
+```
+```cpp
+// 3 lines of code compressed into 1
+auto [a, b, c] = nstd::var("hi", nstd::vector(10, 90, 30), 10);
+nstd::log(a, b, c); // hi [vector: {10, 90, 30}] 10
 ```
 ### \<vector\>
 ```cpp
