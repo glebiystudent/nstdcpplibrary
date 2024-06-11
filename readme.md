@@ -1,6 +1,6 @@
 
 # ::nstd
-quick examples to demonstrate different modules
+quick examples to demonstrate different modules (library has more than just this)
 
 ### \<log\>
 ```cpp
@@ -68,11 +68,11 @@ nstd::args_even([](auto idx, auto e){ std::cout << idx << ": " << e << "\n"; }, 
 // 4: whaa..
 ```
 
-### using nstd & __compressed
+### using ::nstd  &  __compressed
 ```cpp
-// compressed is a feature allowing you to compress the library by ignoring **extra/** modules
-// although you won't have features such as **nstd::log()** & **nstd::format()**
+// __compressed is a feature allowing you to compress the library by ignoring extra/ modules
+// although you won't have features such as nstd::log() & nstd::format()
 // you can do it like this:
 #define __compressed
-#include "nstd/init.hpp" // use only this line if you want a full version
+#include "nstd/init.hpp" // use only this line if you want a full version of ::nstd
 ```
