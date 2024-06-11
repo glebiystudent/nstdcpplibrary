@@ -67,3 +67,11 @@ nstd::args_even([](auto idx, auto e){ std::cout << idx << ": " << e << "\n"; }, 
 // 2: hi
 // 4: whaa..
 ```
+
+### __compressed
+compressed is a feature allowing you to compress the library by ignoring **extra/** modules
+although you won't have features such as **nstd::log**
+```cpp
+#define __compressed
+#include "nstd/init.hpp"
+```
