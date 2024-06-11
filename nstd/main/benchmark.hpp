@@ -36,23 +36,23 @@ namespace nstd {
             // compares the current benchmark to the other benchmark
             template<typename F_>
             [[nodiscard]] inline float cmp(benchmark<F_>& b) noexcept(true) {
-                return this->elapsed() / b.elapsed();
+                return this->evaluate() / b.evaluate();
             }
 
             // compares the current benchmark to the other benchmark (human-readable)
             template<typename F_>
             [[nodiscard]] inline std::string compare(benchmark<F_>& b) noexcept(true) {
-                const float p = this->elapsed() / b.elapsed();
+                const float p = this->evaluate() / b.evaluate();
                 return (p < 1 ? (std::to_string((1 - p) * 100) + "% faster") : (std::to_string((p - 1) * 100) + "% slower"));
             }
 
-            [[nodiscard]] inline float elapsed(void) noexcept(true) {
+            [[nodiscard]] inline float evaluate(void) noexcept(true) {
                 return time.count();
             }
 
             ~benchmark() = default;
         private:
             std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
-            std::chrono::duration<float> time;
+            std::chrono::duration<float, std::milli> time;
     };
 }

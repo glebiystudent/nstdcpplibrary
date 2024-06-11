@@ -96,7 +96,7 @@ namespace nstd {
 
     // applies a check function on each and every value in the vector. returns true if every value matched your condition
     template<typename T>
-    [[nodiscard]] inline bool every(const std::vector<T>& vec, const std::function<bool(T)>& func) noexcept(true) {
+    inline bool every(const std::vector<T>& vec, const std::function<bool(T)>& func) noexcept(true) {
         bool ret = true;
         for(const auto& e : vec)
             if(!func(e)) {
