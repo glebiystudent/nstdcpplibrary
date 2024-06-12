@@ -113,4 +113,38 @@ namespace nstd {
             ret += std::to_string(e) + space;
         return ret + std::to_string(vec[vec.size() - 1]);
     }
+
+
+    // swaps upper to lower and vice-versa
+    [[nodiscard]] inline std::string swap_case(std::string str) noexcept(true) {
+        std::for_each(str.begin(), str.end(), [](auto& c){ c = (std::isupper(c) ? std::tolower(c) : std::toupper(c)); });
+        return str;
+    }
+
+
+    // upper cases the first letter in each word 
+    [[nodiscard]] inline std::string title(const std::string& str) noexcept(true) {
+        auto parts = nstd::split(str);
+        std::for_each(parts.begin(), parts.end(), [](auto& str){ str[0] = std::toupper(str[0]); });
+        return nstd::join(parts);
+    }
+
+
+    // splits a string by a newline
+    [[nodiscard]] inline std::vector<std::string> split_lines(const std::string& str) noexcept(true) {
+        return nstd::split(str, '\n');
+    }
+
+
+    // upper cases the first character
+    [[nodiscard]] inline std::string capitalize(std::string str) noexcept(true) {
+        str[0] = std::toupper(str[0]);
+        return str;
+    }
+
+
+    // counts how much one character is found in another
+    [[nodiscard]] inline std::size_t count(const std::string& str, const char countable) noexcept(true) {
+        return nstd::split(str, countable).size();
+    }
 }
