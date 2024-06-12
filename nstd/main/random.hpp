@@ -14,8 +14,8 @@ namespace nstd {
                 r = std::mt19937((std::random_device())());
             }
 
-            [[nodiscard]] inline int32_t range(const int32_t from, const int32_t to) noexcept(true) {
-                return std::uniform_int_distribution(from, to)(r);
+            [[nodiscard]] inline int32_t range(const std::pair<int32_t, int32_t>& _range = {-100, 100}) noexcept(true) {
+                return std::uniform_int_distribution(_range.first, _range.second)(r);
             }
 
             [[nodiscard]] inline std::mt19937 engine(void) noexcept(true) {

@@ -55,13 +55,15 @@ namespace nstd {
             std::get<idx - 1>(tuple)();
     }
 
-    // this is a wrapper function to allow you having infinite variables in one line of code
-    // auto [a, b, c] = nstd::variables(...);
+    // allowing you having infinite variables in one line of code
+    // auto [a, b, c] = nstd::var(...);
     template<typename... Ts>
     [[nodiscard]] inline std::tuple<Ts...> var(Ts&&... ts) noexcept(true) {
         return std::forward_as_tuple(ts...);
     }
 
+    // allowing you to destruct vector[n0, n1, ..., N] into variables
+    // auto [a, b] = nstd::var<2>(...);
     template<std::size_t N, typename T>
     [[nodiscard]] inline auto var(const std::vector<T>& vec) noexcept(true) {
         return [&]<std::size_t... I>(std::index_sequence<I...>){

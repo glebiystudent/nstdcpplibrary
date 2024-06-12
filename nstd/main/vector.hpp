@@ -7,7 +7,6 @@
 #include <vector>
 #include <algorithm>
 #include <concepts>
-#include <string>
 #include <functional>
 #include <ranges>
 #include <type_traits>
@@ -27,9 +26,9 @@ namespace nstd {
 
     template<typename T = int>
         requires std::integral<T>
-    [[nodiscard]] inline std::vector<T> generate_random(nstd::random& r, const std::size_t n = 10, const std::pair<T, T>& range = {-100, 100}) noexcept(true) {
+    [[nodiscard]] inline std::vector<T> generate_random(nstd::random& r, const std::size_t n = 10, const std::pair<T, T>& _range = {-100, 100}) noexcept(true) {
         std::vector<T> ret(n);
-        std::generate(ret.begin(), ret.end(), [&]{ return r.range(range.first, range.second); });
+        std::generate(ret.begin(), ret.end(), [&]{ return r.range(_range); });
         return ret;
     }
 
@@ -102,23 +101,6 @@ namespace nstd {
         return ret;
     }
 
-    // concatenates all the values from vector into one big string by a delimeter(can be changed)
-    [[nodiscard]] inline std::string concat(const std::vector<std::string>& vec, const std::string& space = " ") noexcept(true) {
-        std::string ret = "";
-        for(const auto& e : vec | std::views::take(vec.size() - 1))
-            ret += e + space;
-        return ret + vec[vec.size() - 1];
-    }
-
-    // concatenates all the values(int/float/bool) from vector into one big string by a delimeter(can be changed) 
-    template<typename T>   
-        requires std::integral<T> || std::floating_point<T>
-    [[nodiscard]] inline std::string concat(const std::vector<T>& vec, const std::string& space = " ") noexcept(true) {
-        std::string ret = "";
-        for(const auto& e : vec | std::views::take(vec.size() - 1))
-            ret += std::to_string(e) + space;
-        return ret + std::to_string(vec[vec.size() - 1]);
-    }
 
     // applies a check function on each and every value in the vector. returns true if every value matched your condition
     template<typename T>
@@ -145,6 +127,15 @@ namespace nstd {
         }, value);
         return ret;
     }
+
+
+    // applies a function to each element of a vector and changes it
+    template<typename T, typename F>
+    [[nodiscard]] inline std::vector<T> for_each(std::vector<T> vec, F&& func) noexcept(true) {
+        std::for_each(vec.begin(), vec.end(), std::forward<F>(func));
+        return vec;
+    }
+
 
     // filters a vector and returns a new vector with values filtered by a callback function
     template<typename T>
@@ -194,7 +185,7 @@ namespace nstd {
 
     // pop elements from the front(n for additional elements popped)
     template<typename T>
-    [[nodiscard]] inline std::vector<T> pop_front(std::vector<T> vec, const std::size_t n) noexcept(true) {
+    [[nodiscard]] inline std::vector<T> pop_front(std::vector<T> vec, const std::size_t n = 0) noexcept(true) {
         vec.erase(vec.begin(), vec.begin() + n + 1);
         return vec;
     }
