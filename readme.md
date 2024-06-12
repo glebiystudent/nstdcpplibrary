@@ -29,10 +29,21 @@ nstd::switch_string(input,
 });
 ```
 ```cpp
-// 3 lines of code compressed into 1
+// 4 lines of code compressed into 1
 auto [a, b, c, d] = nstd::var("hi", nstd::vector(10, 90, 30), 10, []{ std::cout << "wow\n"; });
 nstd::log(a, b, c); // hi [vector: {10, 90, 30}] 10
 d(); // wow
+```
+```cpp
+// destructuring assignment like in javascript!
+auto vec = nstd::vector(3, 9, -1);
+
+auto [var1, var2] = nstd::var("hello", false);
+auto [e1, e2] = nstd::var<2>(vec);
+
+nstd::log(var1, var2, "\n", e1, e2);
+// hello 0
+// 3 9
 ```
 ### \<vector\>
 ```cpp

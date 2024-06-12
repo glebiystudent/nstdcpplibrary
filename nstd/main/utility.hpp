@@ -7,7 +7,10 @@
 #include <utility>
 #include <string>
 #include <type_traits>
+#include <vector>
 #include <tuple>
+
+#include <iostream>
 
 namespace nstd {
     // repeats a callback function n times with forwarded arguments into it
@@ -57,5 +60,12 @@ namespace nstd {
     template<typename... Ts>
     [[nodiscard]] inline std::tuple<Ts...> var(Ts&&... ts) noexcept(true) {
         return std::forward_as_tuple(ts...);
+    }
+
+    template<std::size_t N, typename T>
+    [[nodiscard]] inline auto var(const std::vector<T>& vec) noexcept(true) {
+        return [&]<std::size_t... I>(std::index_sequence<I...>){
+            return (std::make_tuple(vec[I]...));
+        }(std::make_index_sequence<N>{});
     }
 }
