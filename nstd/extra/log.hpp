@@ -22,7 +22,7 @@ constexpr inline const char* newline = "\n";
 constexpr inline const char* endl = "\n";
 
 namespace nstd {
-    // the main log function, you can insert almost anything here, otherwise you'll see <undefined>, don't worry
+    // the main log function, you can insert anything here
     template<typename... Ts>
     inline void log(Ts&&... args) noexcept(true) {
         auto func = [&]<typename T>(T&& t){

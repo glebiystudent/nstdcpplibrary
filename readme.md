@@ -38,11 +38,11 @@ d(); // wow
 // destructuring assignment like in javascript!
 auto vec = nstd::vector(3, 9, -1);
 
-auto [var1, var2] = nstd::var("hello", false);
+auto [var1, var2, var3] = nstd::var("hello", false, nstd::vector(-1, -3, -100));
 auto [e1, e2] = nstd::var<2>(vec);
 
-nstd::log(var1, var2, "\n", e1, e2);
-// hello 0
+nstd::log(var1, var2, var3, "\n", e1, e2);
+// hello 0 [vector: {-1, -3, -100}]
 // 3 9
 ```
 ### \<vector\>
