@@ -12,6 +12,9 @@
 #include <ranges>
 #include <type_traits>
 
+#include "random.hpp"
+
+
 namespace nstd {
     // creates a vector by your variadic arguments
     template<typename T = int, typename... Ts>
@@ -19,6 +22,14 @@ namespace nstd {
         std::vector<T> ret;
         ret.reserve(sizeof...(Ts));
         ((ret.emplace_back(std::forward<Ts>(args))), ...);
+        return ret;
+    }
+
+    template<typename T = int>
+        requires std::integral<T>
+    [[nodiscard]] inline std::vector<T> generate_random(nstd::random& r, const std::size_t n = 10, const std::pair<T, T>& range = {-100, 100}) noexcept(true) {
+        std::vector<T> ret(n);
+        std::generate(ret.begin(), ret.end(), [&]{ return r.range(range.first, range.second); });
         return ret;
     }
 
@@ -46,6 +57,21 @@ namespace nstd {
         std::vector<T> ret(size);
         std::fill(ret.begin(), ret.end(), std::forward<T>(number));
         return ret;
+    }
+
+    // returns a sorted vector in an ascending order
+    template<typename T>
+    [[nodiscard]] inline std::vector<T> sort_asc(std::vector<T> vec) noexcept(true) {
+        std::sort(vec.begin(), vec.end(), std::less<T>());
+        return vec;
+    }
+
+
+    // returns a sorted vector in an ascending order
+    template<typename T>
+    [[nodiscard]] inline std::vector<T> sort_desc(std::vector<T> vec) noexcept(true) {
+        std::sort(vec.begin(), vec.end(), std::greater<T>());
+        return vec;
     }
 
     // returns a reversed vector

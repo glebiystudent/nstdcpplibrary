@@ -18,3 +18,4 @@
 #include "main/benchmark.hpp"
 #include "main/async.hpp"
 #include "main/utility.hpp"
+#include "main/random.hpp"
