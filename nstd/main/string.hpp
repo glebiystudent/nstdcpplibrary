@@ -107,7 +107,7 @@ namespace nstd {
     // concatenates all the values(int/float/bool) from vector into one big string by a delimeter(can be changed) 
     template<typename T>   
         requires std::integral<T> || std::floating_point<T>
-    [[nodiscard]] inline std::string concat(const std::vector<T>& vec, const std::string& space = " ") noexcept(true) {
+    [[nodiscard]] inline std::string join(const std::vector<T>& vec, const std::string& space = " ") noexcept(true) {
         std::string ret = "";
         for(const auto& e : vec | std::views::take(vec.size() - 1))
             ret += std::to_string(e) + space;
@@ -146,5 +146,15 @@ namespace nstd {
     // counts how much one character is found in another
     [[nodiscard]] inline std::size_t count(const std::string& str, const char countable) noexcept(true) {
         return nstd::split(str, countable).size();
+    }
+
+
+    [[nodiscard]] inline bool is_number(const std::string& str) noexcept(true) {
+        return !str.empty() && std::find_if(str.begin(), str.end(), [](auto c) { return !std::isdigit(c); }) == str.end();
+    }
+
+
+    [[nodiscard]] inline bool is_string(const std::string& str) noexcept(true) {
+        return !is_number(str);
     }
 }
