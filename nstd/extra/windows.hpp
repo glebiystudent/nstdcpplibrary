@@ -11,7 +11,6 @@
 #include <functional>
 #include <thread>
 
-#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 namespace nstd { 
@@ -53,6 +52,10 @@ namespace nstd {
             int32_t ms_delay;
             std::unordered_map<int32_t, std::function<void(void)>> storage;
     };
+
+    inline void launch_process(const std::string& str) noexcept(true) {
+        ShellExecuteA(0, "open", str.c_str(), 0, 0, SW_SHOWNORMAL);
+    }
 }
 
 #endif
