@@ -76,7 +76,7 @@ nstd::benchmark  b([]{
 
 std::cout << b.evaluate() << "\n"; // 5.4944 (milliseconds)
 ```
-### \<windows>\
+### \<windows\>
 ```cpp
 // in order for this module to load
 // you have to do this:
