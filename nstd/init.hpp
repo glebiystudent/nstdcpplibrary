@@ -9,6 +9,7 @@
 #include "extra/log.hpp"
 #include "extra/argsindexing.hpp"
 #include "extra/format.hpp"
+#include "extra/windows.hpp"
 
 // main library features that are always gonna be included in
 #include "main/map.hpp"

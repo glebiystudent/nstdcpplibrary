@@ -76,6 +76,22 @@ nstd::benchmark  b([]{
 
 std::cout << b.evaluate() << "\n"; // 5.4944 (milliseconds)
 ```
+### \<windows>\
+```cpp
+// in order for this module to load
+// you have to do this:
+#define __nstdwindows
+#include "nstd/init.hpp"
+```
+```cpp
+nstd::keypress_handler h;
+
+// add as many keys as you want 
+// and whenever any of them gets pressed
+// a corresponding function will run
+h.add(VK_NUMPAD9, []{ std::cout << "9 was pressed.\n"; }); 
+h.async().join(); // async automatic handling
+```
 ### \<argsindexing\>
 ```cpp
 // ability to fluently work with infinite amount of arguments
