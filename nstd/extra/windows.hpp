@@ -17,8 +17,8 @@
 namespace nstd { 
     class keypress_handler {
         public:
-            inline keypress_handler(void) noexcept(true) {
-
+            inline keypress_handler(const int32_t delay = 25) noexcept(true) {
+                ms_delay = delay;
             }
 
             inline void add(int32_t key, const std::function<void(void)>& f) noexcept(true) {
@@ -32,20 +32,25 @@ namespace nstd {
             inline void handle(void) noexcept(true) {
                 for(const auto& [key, f] : storage) {
                     if(GetAsyncKeyState(key) & 0x8000) {
-                        for(; GetAsyncKeyState(key); ) {}
+                        for(; GetAsyncKeyState(key); ) {
+                            std::this_thread::sleep_for(std::chrono::milliseconds(ms_delay));
+                        }
 
                         f();
                     }
                 }
             }
 
-            inline std::thread async(void) noexcept(true) {
+            inline std::thread async() noexcept(true) {
                 return std::thread([&]{
-                    for(;;)
+                    for(;;) {
+                        std::this_thread::sleep_for(std::chrono::milliseconds(ms_delay));
                         handle();
+                    }
                 });
             }
         private:
+            int32_t ms_delay;
             std::unordered_map<int32_t, std::function<void(void)>> storage;
     };
 }

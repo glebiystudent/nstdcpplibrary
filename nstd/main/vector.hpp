@@ -85,8 +85,8 @@ namespace nstd {
     [[nodiscard]] inline std::vector<T> slice(const std::vector<T>& vec, const std::size_t from, std::size_t to = -1) noexcept(true) {
         if(to == -1)
             to = vec.size() - 1;
-        std::vector<T> ret(abs(from - to) + 1);
-        std::copy_n(vec.begin() + from, abs(from - to) + 1, ret.begin());
+        std::vector<T> ret(to - from + 1);
+        std::copy_n(vec.begin() + from, to - from + 1, ret.begin());
 
         return ret;
     }
