@@ -9,8 +9,8 @@
 #include <type_traits>
 #include <vector>
 #include <tuple>
+#include <concepts>
 
-#include <iostream>
 
 namespace nstd {
     // repeats a callback function n times with forwarded arguments into it
@@ -69,5 +69,20 @@ namespace nstd {
         return [&]<std::size_t... I>(std::index_sequence<I...>){
             return (std::make_tuple(vec[I]...));
         }(std::make_index_sequence<N>{});
+    }
+
+    template<typename T, typename... Ts>
+        requires ((std::same_as<T, Ts> || std::assignable_from<T&, Ts>) && ...)
+    inline bool contains(T&& v, Ts&&... ts) noexcept(true) {
+        auto cmp = []<typename C, typename C_, typename F>(C&& a, C_&& b, F&& func){
+            bool ret = std::forward<C>(a) == std::forward<C_>(b);
+            if(ret) std::forward<F>(func)();
+            return ret;
+        };
+
+        bool ret = false;
+        ((cmp(std::forward<T>(v), std::forward<Ts>(ts), [&]{ ret = true; })), ...);
+
+        return ret;
     }
 }
