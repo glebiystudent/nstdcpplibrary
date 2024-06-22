@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <vector>
 #include <tuple>
+#include <ranges>
 #include <concepts>
 
 
@@ -68,6 +69,18 @@ namespace nstd {
     [[nodiscard]] inline auto var(const std::vector<T>& vec) noexcept(true) {
         return [&]<std::size_t... I>(std::index_sequence<I...>){
             return (std::make_tuple(vec[I]...));
+        }(std::make_index_sequence<N>{});
+    }
+
+
+    template<std::size_t N, typename T>
+    [[nodiscard]] inline auto var_rest(const std::vector<T>& vec) noexcept(true) {
+        auto slice = [&](void){
+            auto view = std::views::drop(vec, N);
+            return std::vector(view.begin(), view.end());
+        };
+        return [&]<std::size_t... I>(std::index_sequence<I...>){
+            return (std::make_tuple(vec[I]..., slice()));
         }(std::make_index_sequence<N>{});
     }
 
