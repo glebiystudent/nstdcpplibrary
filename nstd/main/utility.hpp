@@ -82,7 +82,6 @@ namespace nstd {
 
         bool ret = false;
         ((cmp(std::forward<T>(v), std::forward<Ts>(ts), [&]{ ret = true; })), ...);
-
         return ret;
     }
 }
