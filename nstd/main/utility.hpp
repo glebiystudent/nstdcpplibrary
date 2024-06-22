@@ -72,7 +72,7 @@ namespace nstd {
     }
 
     template<typename T, typename... Ts>
-        requires ((std::same_as<T, Ts> || std::assignable_from<T&, Ts>) && ...)
+        requires ((std::same_as<T, Ts> || std::assignable_from<T&, Ts> || std::assignable_from<Ts&, T>) && ...)
     inline bool contains(T&& v, Ts&&... ts) noexcept(true) {
         auto cmp = []<typename C, typename C_, typename F>(C&& a, C_&& b, F&& func){
             bool ret = std::forward<C>(a) == std::forward<C_>(b);
