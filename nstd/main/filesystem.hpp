@@ -55,4 +55,15 @@ namespace nstd {
     inline void create_directory(const std::string& path) noexcept(true) {
         std::filesystem::create_directory(path);
     }
+
+    inline void recreate_directory(const std::string& path) noexcept(true) {
+        std::filesystem::remove_all(path);
+        std::filesystem::create_directory(path);
+    }
+
+    template<typename F>
+    inline void iterate_directory(const std::string& path, F&& f) noexcept(true) {
+        for(const auto& e : std::filesystem::recursive_directory_iterator(path))
+            std::forward<F>(f)(e);
+    }
 }
