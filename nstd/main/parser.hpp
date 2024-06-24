@@ -36,6 +36,7 @@ namespace nstd {
 
 
         auto parse = [&]{
+            int32_t empty_idx = 0;
             str = "{" + str + "}";
             for(int32_t idx = -1;;) {
                 auto find = str.find_first_of("{}", idx + 1);
@@ -48,10 +49,17 @@ namespace nstd {
                     auto [brace_left, brace_right] = nstd::var(braces[braces.size() - 2], braces[braces.size() - 1]);
                     auto level_string = str.substr(brace_left.idx + 1, brace_right.idx - brace_left.idx - 1);
                     auto level_idx = braces.size();
-                    levels[level_idx].emplace_back(level_string);
+
+                    if(brace_right.idx - brace_left.idx == 1) {
+                        std::cout << "!!!!\n";
+                        levels[level_idx].emplace_back(std::to_string(empty_idx));
+                    } else {
+                        levels[level_idx].emplace_back(level_string);
+                    }
 
                     braces.pop_back();
                     braces.pop_back();
+                    empty_idx++;
                 }
             }
         };
@@ -70,7 +78,11 @@ namespace nstd {
         auto evaluate_childfolder = [&](const std::size_t idx){
             for(auto& fam : families[idx]) {
                 auto [parent, child, folder] = nstd::var(fam.parent, fam.child, fam.child_folder);
-                if(child.empty()) child = "{}";
+                std::cout << child << "\n";
+                if(child.size() == 3) {
+                child = "{}";
+                    std::cout << "asdfdsf: " << child << "\n";
+                }
                 auto child_idx = parent.find(child); // ..., f: {file.txt}
                 auto semicolon_idx = parent.rfind(':', child_idx); // :
                 auto comma_idx = parent.rfind(',', semicolon_idx); // ,
