@@ -8,7 +8,10 @@
 #include <unordered_map>
 #include <map>
 #include <vector>
+
+#ifdef __nstddef
 #include <iostream>
+#endif
 
 #include "../main/utility.hpp"
 #include "../main/string.hpp"
@@ -26,13 +29,14 @@ namespace nstd {
             std::string child_folder;
         };
 
+
         std::vector<brace> braces;
         std::map<std::size_t, std::vector<std::string>> levels;
         std::map<std::size_t, std::vector<family>> families;
 
 
         auto parse = [&]{
-            str = "{ " + str + "}";
+            str = "{" + str + "}";
             for(int32_t idx = -1;;) {
                 auto find = str.find_first_of("{}", idx + 1);
                 if(find == std::string::npos)
@@ -66,6 +70,7 @@ namespace nstd {
         auto evaluate_childfolder = [&](const std::size_t idx){
             for(auto& fam : families[idx]) {
                 auto [parent, child, folder] = nstd::var(fam.parent, fam.child, fam.child_folder);
+                if(child.empty()) child = "{}";
                 auto child_idx = parent.find(child); // ..., f: {file.txt}
                 auto semicolon_idx = parent.rfind(':', child_idx); // :
                 auto comma_idx = parent.rfind(',', semicolon_idx); // ,
@@ -75,7 +80,7 @@ namespace nstd {
                     folder_name = parent.substr(comma_idx + 2, semicolon_idx - comma_idx - 2);
                 else
                     folder_name = parent.substr(0, semicolon_idx);
-                folder = folder_name;
+                folder = folder_name;    
             }
         };
         
@@ -114,8 +119,12 @@ namespace nstd {
                 if(parts.back().contains(":"))
                     parts.pop_back();
                 for(auto& e : parts) {
-                    if(e.find('.') == std::string::npos)
-                        e += ".txt";
+                    if(e != "{}") {
+                        if(e.find('.') == std::string::npos)
+                            e += ".txt";
+                    } else {
+                        e = "";
+                    }
                     paths.emplace_back(folder + "/" + e);
                 }
             }
@@ -127,6 +136,7 @@ namespace nstd {
         };
 
 
+#ifdef __nstddev
         auto log_levels = [&]{
             for(const auto &[idx, level] : levels) {
                 for (const auto& e : level) {
@@ -148,6 +158,12 @@ namespace nstd {
             }
         };
 
+        auto log_paths = [&] {
+            for(const auto& e : paths)
+                std::cout << e << "\n";
+        };
+#endif
+
         auto build = [&] {
             parse();
             auto evaluate = [&](const std::size_t idx) {
@@ -168,15 +184,7 @@ namespace nstd {
             fix_paths();
         };
 
-
-        auto log_paths = [&] {
-            for(const auto& e : paths)
-                std::cout << e << "\n";
-        };
-
-
         build();
-
         return paths;
     }
 }
