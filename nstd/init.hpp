@@ -22,3 +22,4 @@
 #include "main/random.hpp"
 #include "main/filesystem.hpp"
 #include "main/interval.hpp"
+#include "main/parser.hpp"

@@ -144,8 +144,19 @@ namespace nstd {
 
 
     // counts how much one character is found in another
-    [[nodiscard]] inline std::size_t count(const std::string& str, const char countable) noexcept(true) {
-        return nstd::split(str, countable).size();
+    [[nodiscard]] inline int32_t count(const std::string& str, const char c) noexcept(true) {
+        return std::ranges::count(str, c);
+    }
+
+
+    // counts how much charcters from string is found in another
+    [[nodiscard]] inline int32_t count(const std::string& str, const std::string& chars) noexcept(true) {
+        int32_t ret = 0;
+        std::for_each(chars.begin(), chars.end(), [&](auto c){
+            ret += std::ranges::count(str, c);   
+            std::cout << c << "\n";
+        });
+        return ret;
     }
 
 
@@ -156,5 +167,13 @@ namespace nstd {
 
     [[nodiscard]] inline bool is_string(const std::string& str) noexcept(true) {
         return !is_number(str);
+    }
+
+    [[nodiscard]] inline std::string replace_all(std::string str, const std::string& from, const std::string& to) noexcept(true) {
+        for(std::size_t n = 0; (n = str.find(from, n)) != std::string::npos; ) {
+            str.replace(n, from.size(), to);
+            n += to.size();
+        }
+        return str;
     }
 }

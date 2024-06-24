@@ -8,6 +8,8 @@
 #include <map>
 #include <utility>
 
+#define umap unordered_map
+
 namespace nstd {
     // creates an unordered_map from your variadic arguments: nstd::unordered_map<keytype, valuetype>(key, value, key, value, ...)
     template<typename K, typename V, typename... Ts>
@@ -18,10 +20,7 @@ namespace nstd {
         std::unordered_map<K, V> ret; ret.reserve(sizeof...(Ts) / 2);
         K key;
         auto f = [&](const std::size_t idx, auto val) {
-            if constexpr(std::is_same_v<decltype(val), K>)
-                key = val;
-            else
-                ret[key] = val;
+            idx % 2 == 0 ? key = val : ret[key] = val;
         };
 
         [&]<std::size_t... I>(std::index_sequence<I...>) {
@@ -39,10 +38,7 @@ namespace nstd {
         std::map<K, V> ret; ret.reserve(sizeof...(Ts) / 2);
         K key;
         auto f = [&](const std::size_t idx, auto val) {
-            if constexpr(std::is_same_v<decltype(val), K>)
-                key = val;
-            else
-                ret[key] = val;
+            idx % 2 == 0 ? key = val : ret[key] = val;
         };
 
         [&]<std::size_t... I>(std::index_sequence<I...>) {
