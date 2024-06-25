@@ -66,4 +66,14 @@ namespace nstd {
         for(const auto& e : std::filesystem::recursive_directory_iterator(path))
             std::forward<F>(f)(e);
     }
+
+    inline void build_files(const std::vector<std::string>& paths, const std::string& inside = "./") noexcept(true) {
+        for(const auto& path : paths) {
+            if(path.contains(".")) {
+                 write(inside + path, "");
+            } else {
+                std::filesystem::create_directory(inside + path);
+            }
+        }
+    }
 }

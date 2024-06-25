@@ -35,9 +35,19 @@ namespace nstd {
         std::map<std::size_t, std::vector<family>> families;
 
 
-        auto parse = [&]{
-            int32_t empty_idx = 0;
+        auto pre_parse = [&]{
             str = "{" + str + "}";
+            int32_t empty_idx = 0;
+            for(std::size_t n = 0; (n = str.find("{}", n)) != std::string::npos; ) {
+                str.replace(n, 2, "{__empty" + std::to_string(empty_idx) + ".txt}");
+                n += 14;
+                empty_idx++;
+            }
+            std::cout << "str: " << str << "\n";
+        };
+
+        auto parse = [&]{
+            pre_parse();
             for(int32_t idx = -1;;) {
                 auto find = str.find_first_of("{}", idx + 1);
                 if(find == std::string::npos)
@@ -51,15 +61,14 @@ namespace nstd {
                     auto level_idx = braces.size();
 
                     if(brace_right.idx - brace_left.idx == 1) {
-                        std::cout << "!!!!\n";
-                        levels[level_idx].emplace_back(std::to_string(empty_idx));
+                        //levels[level_idx].emplace_back("__empty" + std::to_string(empty_idx) + ".txt");
+                        //str.replace(brace_left.idx, 2, "{__empty" + std::to_string(empty_idx) + ".txt}");
                     } else {
                         levels[level_idx].emplace_back(level_string);
                     }
 
                     braces.pop_back();
                     braces.pop_back();
-                    empty_idx++;
                 }
             }
         };
@@ -78,11 +87,6 @@ namespace nstd {
         auto evaluate_childfolder = [&](const std::size_t idx){
             for(auto& fam : families[idx]) {
                 auto [parent, child, folder] = nstd::var(fam.parent, fam.child, fam.child_folder);
-                std::cout << child << "\n";
-                if(child.size() == 3) {
-                child = "{}";
-                    std::cout << "asdfdsf: " << child << "\n";
-                }
                 auto child_idx = parent.find(child); // ..., f: {file.txt}
                 auto semicolon_idx = parent.rfind(':', child_idx); // :
                 auto comma_idx = parent.rfind(',', semicolon_idx); // ,
@@ -131,7 +135,7 @@ namespace nstd {
                 if(parts.back().contains(":"))
                     parts.pop_back();
                 for(auto& e : parts) {
-                    if(e != "{}") {
+                    if(!e.contains("__empty")) {
                         if(e.find('.') == std::string::npos)
                             e += ".txt";
                     } else {
@@ -195,8 +199,9 @@ namespace nstd {
                 evaluate(i);
             fix_paths();
         };
-
+        
         build();
+        log_levels();
         return paths;
     }
 }
