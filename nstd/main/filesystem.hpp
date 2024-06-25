@@ -69,10 +69,13 @@ namespace nstd {
 
     inline void build_files(const std::vector<std::string>& paths, const std::string& inside = "./") noexcept(true) {
         for(const auto& path : paths) {
-            if(path.contains(".")) {
-                 write(inside + path, "");
-            } else {
-                std::filesystem::create_directory(inside + path);
+            auto parts = nstd::split(path, '/');
+            for(const auto& part : parts) {
+                if(part.contains(".")) {
+                    
+                } else {
+
+                }
             }
         }
     }
