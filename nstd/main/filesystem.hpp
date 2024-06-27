@@ -68,14 +68,23 @@ namespace nstd {
     }
 
     inline void build_files(const std::vector<std::string>& paths, const std::string& inside = "./") noexcept(true) {
-        for(const auto& path : paths) {
-            auto parts = nstd::split(path, '/');
-            for(const auto& part : parts) {
-                if(part.contains(".")) {
-                    
-                } else {
+        if(!nstd::consists_only_of(inside, "./"))
+            std::filesystem::create_directory(inside);
 
-                }
+        for(const auto& path : paths) {
+            std::string fullpath = "";
+            for(auto parts = nstd::split(path, '/'); auto& part : parts) {
+                if(part == *parts.begin())
+                    part = inside + part;
+                if(part != *(parts.end() - 1))
+                    part += "/";
+
+                fullpath += part;
+
+                if(part.substr(1).contains("."))
+                    nstd::write(fullpath, "");
+                else
+                    std::filesystem::create_directory(fullpath);
             }
         }
     }

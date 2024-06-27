@@ -176,4 +176,10 @@ namespace nstd {
         }
         return str;
     }
+
+    [[nodiscard]] inline bool consists_only_of(const std::string& str, const std::string& chars) noexcept(true) {
+        bool ret = true;
+        std::for_each(str.begin(), str.end(), [&](auto c){ if(str.find_first_not_of(chars) != std::string::npos) ret = false; });
+        return ret;
+    }
 }

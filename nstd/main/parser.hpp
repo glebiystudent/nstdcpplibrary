@@ -43,7 +43,6 @@ namespace nstd {
                 n += 14;
                 empty_idx++;
             }
-            std::cout << "str: " << str << "\n";
         };
 
         auto parse = [&]{
@@ -201,7 +200,6 @@ namespace nstd {
         };
         
         build();
-        log_levels();
         return paths;
     }
 }
