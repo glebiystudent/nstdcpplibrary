@@ -108,7 +108,7 @@ namespace __ {
     // not recognized by the overloading system
     template<typename T>
     [[nodiscard]] inline std::string __compose(const T& t) noexcept(true) {
-        return "<undefined> ";
+        return "{undefined} ";
     }
 }
 
